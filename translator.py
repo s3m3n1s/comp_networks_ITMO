@@ -39,7 +39,7 @@ def translate(st):
     return (x16, x2)
 
 
-name = 'Сайдумаров С.К.'  # input()
+name = input('Введите Фамилия И.О.:')
 print(translate(name))
 
 underscore = '_'  # *2
