@@ -109,3 +109,27 @@ print('Длина сообщения: ', len(bl), ' бит')
 #TODO добавить лучшие способы кодирования
 print('Манчестерское кодирование:')
 print(manchestercode(bl))
+
+#Скремблирование
+#Bi = Ai^Bi-3^Bi-5
+def scrambling(bit_line):
+    res = ''
+    cur = ''
+    for i in range(len(bit_line)):
+        cur = int(bit_line[i])
+        if i >= 3:
+            cur^=int(res[i-3])
+        if i>= 5:
+            cur^=int(res[i-5])
+        res+=str(cur)
+    return res
+
+
+print('Скремблированное сообщение:')
+msg = scrambling(''.join(translate(name)[1]))
+print(msg)
+a = []
+for i in range(0, len(msg), 4):
+    a.append(msg[0 + i:4 + i])
+for i in a: print(str(hex(int(i , 2)))[2:], end = '')
+
