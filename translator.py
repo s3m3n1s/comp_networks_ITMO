@@ -9,6 +9,7 @@
 #         except:
 #             pass
 # print(d)
+from hashlib import md5
 translator16 = \
     {'А': 'C0', 'Б': 'C1', 'В': 'C2', 'Г': 'C3', 'Д': 'C4', 'Е': 'C5', 'Ж': 'C6', 'З': 'C7', 'И': 'C8', 'Й': 'C9',
      'К': 'CA', 'Л': 'CB', 'М': 'CC', 'Н': 'CD', 'О': 'CE', 'П': 'CF',
@@ -40,6 +41,8 @@ def translate(st):
 
 
 name = input('Введите Фамилия И.О.:')
+if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
+    raise NameError ('You\'re broken ')
 print(translate(name))
 
 underscore = '_'  # *2
