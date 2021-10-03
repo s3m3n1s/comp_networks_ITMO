@@ -37,13 +37,19 @@ def translate(st):
     x2 = []
     for i in st:
         x2.append(translatorF[i][1])
-    return (x16, x2)
+    return x16, x2
+
+def translate_join(x16, x2):
+    x16 = " ".join(x16)
+    x2 = " ".join(x2)
+    return x16, x2
 
 
 name = input('Введите Фамилия И.О.:')
 if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
     raise NameError ('You\'re broken ')
-print(translate(name))
+print(*translate_join(translate(name)[0], translate(name)[1]), sep='\n')
+print('Длина сообщения:', len(''.join(translate(name)[1])), 'бит,', len(translate(name)[1]), 'байт')
 
 underscore = '_'  # *2
 line = '|'
