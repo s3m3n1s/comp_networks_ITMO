@@ -123,12 +123,12 @@ def amicode_for_excel(bit_line):
     is_up = True
     for i in bit_line:
         if i == "0":
-            res += '0\t0\t'
+            res += '0;0;'
         if i == "1":
             if is_up:
-                res += '1\t1\t'
+                res += '1;1;'
             else:
-                res += '-1\t-1\t'
+                res += '-1;-1;'
             is_up = not is_up
     return res
 
@@ -141,10 +141,10 @@ def bipolarRZcode_for_excel(bit_line):
     res = ''
     for i in bit_line:
         if i == '0':
-            res += '-1\t-1\t'
+            res += '-1;-1;'
         else:
-            res += '1\t1\t'
-        res += '0\t0\t'
+            res += '1;1;'
+        res += '0;0;'
     return res
 
 
@@ -168,18 +168,18 @@ def nrzicode(bit_line):
 print('NRZI code:')
 print(nrzicode(''.join(translate(name)[1])))
 
+
 def for_excel(signal):
     res = ''
     for i in signal:
         if i == hightscore:
-            res += '1\t1\t'
+            res += '1;1;'
         if i == underscore:
-            res += '0\t0\t'
+            res += '0;0;'
     return res
 
-
-print('Первые 4 байта для excel (построить картинку красивую):')
-print(for_excel(manchestercode(''.join(translate(name)[1][:4]))))
+def export_to_excel():
+    pass
 
 
 def logical_overcoding(bit_line):
