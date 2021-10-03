@@ -10,6 +10,7 @@
 #             pass
 # print(d)
 from hashlib import md5
+
 translator16 = \
     {'А': 'C0', 'Б': 'C1', 'В': 'C2', 'Г': 'C3', 'Д': 'C4', 'Е': 'C5', 'Ж': 'C6', 'З': 'C7', 'И': 'C8', 'Й': 'C9',
      'К': 'CA', 'Л': 'CB', 'М': 'CC', 'Н': 'CD', 'О': 'CE', 'П': 'CF',
@@ -39,15 +40,16 @@ def translate(st):
         x2.append(translatorF[i][1])
     return x16, x2
 
+
 def translate_join(x16, x2):
     x16 = " ".join(x16)
     x2 = " ".join(x2)
     return x16, x2
 
 
-name = "Сайдумаров С.К."#input('Введите Фамилия И.О.:')
+name = "Сайдумаров С.К."  # input('Введите Фамилия И.О.:')
 if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
-    raise NameError ('You\'re broken ')
+    raise NameError('You\'re broken ')
 print(*translate_join(translate(name)[0], translate(name)[1]), sep='\n')
 print('Длина сообщения:', len(''.join(translate(name)[1])), 'бит,', len(translate(name)[1]), 'байт')
 
@@ -68,6 +70,7 @@ def potentialcode(bit_line):
                 res += line
     return res
 
+
 print('Потенциальный код:')
 print(potentialcode(''.join(translate(name)[1])))
 
@@ -86,6 +89,7 @@ def manchestercode(bit_line):
 print('Манчестерский код:')
 print(manchestercode(''.join(translate(name)[1])))
 
+
 def difmanchestercode(bit_line):
     res = ''
 
@@ -99,29 +103,52 @@ def difmanchestercode(bit_line):
         last = res[-1]
         if last == underscore:
             if current == '1':
-                res+='_|¯'
-            elif current =='0':
-                res+='|¯|_'
+                res += '_|¯'
+            elif current == '0':
+                res += '|¯|_'
         elif last == hightscore:
             if current == '1':
-                res+='¯|_'
-            elif current =='0':
-                res+='|_|¯'
+                res += '¯|_'
+            elif current == '0':
+                res += '|_|¯'
     return res
+
 
 print('Дифференциальный манчестерский код:')
 print(difmanchestercode(''.join(translate(name)[1])))
+
+
+def amicode_for_excel(bit_line):
+    res = ''
+    is_up = True
+    for i in bit_line:
+        if i == "0":
+            res += '0\t0\t'
+        if i == "1":
+            if is_up:
+                res += '1\t1\t'
+            else:
+                res += '-1\t-1\t'
+            is_up = not is_up
+    return res
+
+
+print('AMI code for excel:')
+print(amicode_for_excel('01010100000011111101100'))
+
 
 # TODO Еще способов кодирования накидать
 
 def for_excel(signal):
     res = ''
     for i in signal:
-        if i==hightscore:
-            res+='1\t1\t'
-        if i==underscore:
-            res+='0\t0\t'
+        if i == hightscore:
+            res += '1\t1\t'
+        if i == underscore:
+            res += '0\t0\t'
     return res
+
+
 print('Первые 4 байта для excel (построить картинку красивую):')
 print(for_excel(manchestercode(''.join(translate(name)[1][:4]))))
 
@@ -148,25 +175,26 @@ print(bl)
 a = []
 for i in range(0, len(bl), 4):
     a.append(bl[0 + i:4 + i])
-for i in a: print(str(hex(int(i , 2)))[2:], end = '')
+for i in a: print(str(hex(int(i, 2)))[2:], end='')
 print()
 print('Длина сообщения: ', len(bl), ' бит')
-#TODO добавить лучшие способы кодирования
+# TODO добавить лучшие способы кодирования
 print('Манчестерское кодирование:')
 print(manchestercode(bl))
 
-#Скремблирование
-#Bi = Ai^Bi-3^Bi-5
+
+# Скремблирование
+# Bi = Ai^Bi-3^Bi-5
 def scrambling(bit_line):
     res = ''
     cur = ''
     for i in range(len(bit_line)):
         cur = int(bit_line[i])
         if i >= 3:
-            cur^=int(res[i-3])
-        if i>= 5:
-            cur^=int(res[i-5])
-        res+=str(cur)
+            cur ^= int(res[i - 3])
+        if i >= 5:
+            cur ^= int(res[i - 5])
+        res += str(cur)
     return res
 
 
@@ -176,4 +204,4 @@ print(msg)
 a = []
 for i in range(0, len(msg), 4):
     a.append(msg[0 + i:4 + i])
-for i in a: print(str(hex(int(i , 2)))[2:], end = '')
+for i in a: print(str(hex(int(i, 2)))[2:], end='')
