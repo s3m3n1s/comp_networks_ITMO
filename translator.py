@@ -47,7 +47,7 @@ def translate_join(x16, x2):
     return x16, x2
 
 
-name = "Сайдумаров С.К."  # input('Введите Фамилия И.О.:')
+name = input('Введите Фамилия И.О.:')
 if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
     raise NameError('You\'re broken ')
 print(*translate_join(translate(name)[0], translate(name)[1]), sep='\n')
@@ -136,19 +136,37 @@ def amicode_for_excel(bit_line):
 print('AMI code for excel:')
 print(amicode_for_excel(''.join(translate(name)[1])))
 
+
 def bipolarRZcode_for_excel(bit_line):
     res = ''
-        for i in bit_line:
-            if i == '0':
-                res += '-1\t'
-            else:
-                res+='1\t'
-            res+='0\t'
+    for i in bit_line:
+        if i == '0':
+            res += '-1\t-1\t'
+        else:
+            res += '1\t1\t'
+        res += '0\t0\t'
     return res
+
+
 print('bipolarRZcode for excel:')
 print(bipolarRZcode_for_excel(''.join(translate(name)[1])))
 
-# TODO Еще способов кодирования накидать
+
+def nrzicode(bit_line):
+    res = ''
+    prev = underscore
+    not_prev = hightscore
+    for i in range(len(bit_line)):
+        if bit_line[i] == '0':
+            res += prev
+        elif bit_line[i] == '1':
+            prev, not_prev = not_prev, prev
+            res += line + prev
+    return res
+
+
+print('NRZI code:')
+print(nrzicode(''.join(translate(name)[1])))
 
 def for_excel(signal):
     res = ''
