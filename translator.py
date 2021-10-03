@@ -123,12 +123,12 @@ def amicode_for_excel(bit_line):
     is_up = True
     for i in bit_line:
         if i == "0":
-            res += '0;0;'
+            res += '0\t0\t'
         if i == "1":
             if is_up:
-                res += '1;1;'
+                res += '1\t1\t'
             else:
-                res += '-1;-1;'
+                res += '-1\t-1\t'
             is_up = not is_up
     return res
 
@@ -141,10 +141,10 @@ def bipolarRZcode_for_excel(bit_line):
     res = ''
     for i in bit_line:
         if i == '0':
-            res += '-1;-1;'
+            res += '-1\t-1\t'
         else:
-            res += '1;1;'
-        res += '0;0;'
+            res += '1\t1\t'
+        res += '0\t0\t'
     return res
 
 
@@ -173,14 +173,27 @@ def for_excel(signal):
     res = ''
     for i in signal:
         if i == hightscore:
-            res += '1;1;'
+            res += '1\t1\t'
         if i == underscore:
-            res += '0;0;'
+            res += '0\t0\t'
     return res
 
-def export_to_excel():
-    pass
 
+def export_to_excel():
+    st_ = [
+        'NRZ потенциальное кодирование:\t'+for_excel(potentialcode(''.join(translate(name)[1]))),
+        'Манчестерское кодирование:\t'+for_excel(manchestercode(''.join(translate(name)[1]))),
+        'Дифференциальное манчестерское кодирование:\t'+for_excel(difmanchestercode(''.join(translate(name)[1]))),
+        'AMI:\t'+amicode_for_excel(''.join(translate(name)[1])),
+        'Биполярное RZ:\t'+bipolarRZcode_for_excel(''.join(translate(name)[1])),
+        'NRZI:\t'+for_excel(nrzicode((''.join(translate(name)[1]))))
+    ]
+    with open('codes.csv', 'w') as file:
+        for i in st_:
+            file.write(i+'\n')
+
+print('Экспортируем данные в codes.csv чтобы построить графики в экселе. ')
+export_to_excel()
 
 def logical_overcoding(bit_line):
     a = []
