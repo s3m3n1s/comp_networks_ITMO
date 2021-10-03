@@ -86,6 +86,31 @@ def manchestercode(bit_line):
 print('Манчестерский код:')
 print(manchestercode(''.join(translate(name)[1])))
 
+def difmanchestercode(bit_line):
+    res = ''
+
+    if bit_line[0] == '1':
+        res = '¯|_'
+    else:
+        res = '|_|¯'
+
+    for i in range(1, len(bit_line)):
+        current = bit_line[i]
+        last = res[-1]
+        if last == underscore:
+            if current == '1':
+                res+='_|¯'
+            elif current =='0':
+                res+='|¯|_'
+        elif last == hightscore:
+            if current == '1':
+                res+='¯|_'
+            elif current =='0':
+                res+='|_|¯'
+    return res
+
+print('Дифференциальный манчестерский код:')
+print(difmanchestercode(''.join(translate(name)[1])))
 
 # TODO Еще способов кодирования накидать
 
@@ -152,4 +177,3 @@ a = []
 for i in range(0, len(msg), 4):
     a.append(msg[0 + i:4 + i])
 for i in a: print(str(hex(int(i , 2)))[2:], end = '')
-
