@@ -134,8 +134,19 @@ def amicode_for_excel(bit_line):
 
 
 print('AMI code for excel:')
-print(amicode_for_excel('01010100000011111101100'))
+print(amicode_for_excel(''.join(translate(name)[1])))
 
+def bipolarRZcode_for_excel(bit_line):
+    res = ''
+        for i in bit_line:
+            if i == '0':
+                res += '-1\t'
+            else:
+                res+='1\t'
+            res+='0\t'
+    return res
+print('bipolarRZcode for excel:')
+print(bipolarRZcode_for_excel(''.join(translate(name)[1])))
 
 # TODO Еще способов кодирования накидать
 
