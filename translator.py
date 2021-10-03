@@ -53,6 +53,7 @@ if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
 print(*translate_join(translate(name)[0], translate(name)[1]), sep='\n')
 print('Длина сообщения:', len(''.join(translate(name)[1])), 'бит,', len(translate(name)[1]), 'байт')
 
+encoded_name = translate(name)[1]
 underscore = '_'  # *2
 line = '|'
 hightscore = '¯'  # *2
@@ -181,12 +182,12 @@ def for_excel(signal):
 
 def export_to_excel():
     st_ = [
-        'NRZ потенциальное кодирование:\t'+for_excel(potentialcode(''.join(translate(name)[1]))),
-        'Манчестерское кодирование:\t'+for_excel(manchestercode(''.join(translate(name)[1]))),
-        'Дифференциальное манчестерское кодирование:\t'+for_excel(difmanchestercode(''.join(translate(name)[1]))),
-        'AMI:\t'+amicode_for_excel(''.join(translate(name)[1])),
-        'Биполярное RZ:\t'+bipolarRZcode_for_excel(''.join(translate(name)[1])),
-        'NRZI:\t'+for_excel(nrzicode((''.join(translate(name)[1]))))
+        'NRZ потенциальное кодирование:\t'+for_excel(potentialcode(''.join(translate(name)[1][:4]))),
+        'Манчестерское кодирование:\t'+for_excel(manchestercode(''.join(translate(name)[1][:4]))),
+        'Дифференциальное манчестерское кодирование:\t'+for_excel(difmanchestercode(''.join(translate(name)[1][:4]))),
+        'AMI:\t'+amicode_for_excel(''.join(translate(name)[1][:4])),
+        'Биполярное RZ:\t'+bipolarRZcode_for_excel(''.join(translate(name)[1][:4])),
+        'NRZI:\t'+for_excel(nrzicode(''.join(translate(name)[1][:4])))
     ]
     with open('codes.csv', 'w') as file:
         for i in st_:
@@ -219,7 +220,10 @@ for i in range(0, len(bl), 4):
     a.append(bl[0 + i:4 + i])
 for i in a: print(str(hex(int(i, 2)))[2:], end='')
 print()
-print('Длина сообщения: ', len(bl), ' бит')
+print('Длина сообщения: ', len(bl), ' бит', len(bl)/8, ' байт')
+
+lenght = len(''.join(translate(name)[1]))
+print('Избыточность: ', (len(bl)-lenght),'/',lenght,' = ',(len(bl)-lenght)/lenght*100, ' %')
 # TODO добавить лучшие способы кодирования
 print('Манчестерское кодирование:')
 print(manchestercode(bl))
