@@ -45,7 +45,7 @@ def translate_join(x16, x2):
     return x16, x2
 
 
-name = input('Введите Фамилия И.О.:')
+name = "Сайдумаров С.К."#input('Введите Фамилия И.О.:')
 if md5(name.encode()).hexdigest() == '649626ba73fc3c3ea608ed391d1e220e':
     raise NameError ('You\'re broken ')
 print(*translate_join(translate(name)[0], translate(name)[1]), sep='\n')
@@ -88,6 +88,17 @@ print(manchestercode(''.join(translate(name)[1])))
 
 
 # TODO Еще способов кодирования накидать
+
+def for_excel(signal):
+    res = ''
+    for i in signal:
+        if i==hightscore:
+            res+='1\t1\t'
+        if i==underscore:
+            res+='0\t0\t'
+    return res
+print('Первые 4 байта для excel (построить картинку красивую):')
+print(for_excel(manchestercode(''.join(translate(name)[1][:4]))))
 
 
 def logical_overcoding(bit_line):
