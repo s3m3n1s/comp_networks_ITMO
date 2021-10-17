@@ -189,7 +189,7 @@ def export_to_excel():
         'Биполярное RZ:\t'+bipolarRZcode_for_excel(''.join(translate(name)[1][:4])),
         'NRZI:\t'+for_excel(nrzicode(''.join(translate(name)[1][:4])))
     ]
-    with open('codes.csv', 'w') as file:
+    with open('codes.csv', 'w', encoding="utf-16") as file:
         for i in st_:
             file.write(i+'\n')
 
