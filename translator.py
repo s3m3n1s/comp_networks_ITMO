@@ -182,19 +182,21 @@ def for_excel(signal):
 
 def export_to_excel():
     st_ = [
-        'NRZ потенциальное кодирование:\t'+for_excel(potentialcode(''.join(translate(name)[1][:4]))),
-        'Манчестерское кодирование:\t'+for_excel(manchestercode(''.join(translate(name)[1][:4]))),
-        'Дифференциальное манчестерское кодирование:\t'+for_excel(difmanchestercode(''.join(translate(name)[1][:4]))),
-        'AMI:\t'+amicode_for_excel(''.join(translate(name)[1][:4])),
-        'Биполярное RZ:\t'+bipolarRZcode_for_excel(''.join(translate(name)[1][:4])),
-        'NRZI:\t'+for_excel(nrzicode(''.join(translate(name)[1][:4])))
+        'NRZ потенциальное кодирование:\t' + for_excel(potentialcode(''.join(translate(name)[1][:4]))),
+        'Манчестерское кодирование:\t' + for_excel(manchestercode(''.join(translate(name)[1][:4]))),
+        'Дифференциальное манчестерское кодирование:\t' + for_excel(difmanchestercode(''.join(translate(name)[1][:4]))),
+        'AMI:\t' + amicode_for_excel(''.join(translate(name)[1][:4])),
+        'Биполярное RZ:\t' + bipolarRZcode_for_excel(''.join(translate(name)[1][:4])),
+        'NRZI:\t' + for_excel(nrzicode(''.join(translate(name)[1][:4])))
     ]
-    with open('codes.csv', 'w', encoding="utf-16") as file:
+    with open('codes.csv', 'w') as file:
         for i in st_:
-            file.write(i+'\n')
+            file.write(i + '\n')
+
 
 print('Экспортируем данные в codes.csv чтобы построить графики в экселе. ')
 export_to_excel()
+
 
 def logical_overcoding(bit_line):
     a = []
@@ -220,10 +222,10 @@ for i in range(0, len(bl), 4):
     a.append(bl[0 + i:4 + i])
 for i in a: print(str(hex(int(i, 2)))[2:], end='')
 print()
-print('Длина сообщения: ', len(bl), ' бит', len(bl)/8, ' байт')
+print('Длина сообщения: ', len(bl), ' бит', len(bl) / 8, ' байт')
 
 lenght = len(''.join(translate(name)[1]))
-print('Избыточность: ', (len(bl)-lenght),'/',lenght,' = ',(len(bl)-lenght)/lenght*100, ' %')
+print('Избыточность: ', (len(bl) - lenght), '/', lenght, ' = ', (len(bl) - lenght) / lenght * 100, ' %')
 # TODO добавить лучшие способы кодирования
 print('Манчестерское кодирование:')
 print(manchestercode(bl))
@@ -231,15 +233,15 @@ print(manchestercode(bl))
 
 # Скремблирование
 # Bi = Ai^Bi-3^Bi-5
-def scrambling(bit_line):
+def scrambling(bit_line, first=3, second=5):
     res = ''
     cur = ''
     for i in range(len(bit_line)):
         cur = int(bit_line[i])
-        if i >= 3:
-            cur ^= int(res[i - 3])
-        if i >= 5:
-            cur ^= int(res[i - 5])
+        if i >= first:
+            cur ^= int(res[i - first])
+        if i >= second:
+            cur ^= int(res[i - second])
         res += str(cur)
     return res
 
@@ -247,6 +249,32 @@ def scrambling(bit_line):
 print('Скремблированное сообщение:')
 msg = scrambling(''.join(translate(name)[1]))
 print(msg)
+print('Скремблированное с 5 и 23:')
+msg = scrambling(''.join(translate(name)[1]), first=5, second=23)
+print(msg)
+
+
+def max_of_0n1(bit_line):
+    max0 = 0
+    max1 = 0
+    cur0 = 0
+    cur1 = 0
+    cur = '-'
+    for i in bit_line:
+        cur = i
+        if i == cur == '0':
+            cur0 += 1
+            if cur0 > max0: max0 = cur0
+        else:
+            cur0 = 0
+        if i == cur == '1':
+            cur1 += 1
+            if cur1 > max1: max1 = cur1
+        else:
+            cur1 = 0
+    return [max0, max1]
+# print(max_of_0n1(msg))
+
 a = []
 for i in range(0, len(msg), 4):
     a.append(msg[0 + i:4 + i])
