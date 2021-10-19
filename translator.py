@@ -1,14 +1,11 @@
-# alf = 'абвгдежзийклмнопрстуфхцчшщъыьэюя'.upper()+'абвгдежзийклмнопрстуфхцчшщъыьэюя ,.0123456789'
-# x16 = 'CDEF2'
-# x16p2 = '0123456789ABCDEF'
-# d = {}
-# for i in range(len(x16)):
-#     for j in range(len(x16p2)):
-#         try:
-#             d[alf[i*16+j]]=x16[i]+x16p2[j]
-#         except:
-#             pass
-# print(d)
+#!/usr/bin/env python
+__authors__ = ["Saydumarov Semen", "Sopegina Elizaveta"]
+__credits__ = ["Sergey Nechayev", "Rufat Bakirov", "ITMO students"]
+__license__ = "anti-MITa"
+__version__ = "1.0.1"
+__maintainer__ = "Saydumarov Semen"
+__email__ = "semen@saidumarov.ru"
+__telegram__ = "@semensaidumarov"
 from hashlib import md5
 
 translator16 = \
