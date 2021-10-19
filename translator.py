@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 __authors__ = ["Saydumarov Semen", "Sopegina Elizaveta"]
 __credits__ = ["Sergey Nechayev", "Rufat Bakirov", "ITMO students"]
-__license__ = "anti-MITa"
+__license__ = "anti-MITнa"
 __version__ = "1.0.1"
 __maintainer__ = "Saydumarov Semen"
 __email__ = "semen@saidumarov.ru"
