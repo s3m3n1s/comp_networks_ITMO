@@ -6,6 +6,7 @@ __version__ = "1.0.1"
 __maintainer__ = "Saydumarov Semen"
 __email__ = "semen@saidumarov.ru"
 __telegram__ = "@semensaidumarov"
+
 from hashlib import md5
 
 translator16 = \
@@ -229,7 +230,6 @@ print(manchestercode(bl))
 
 
 # Скремблирование
-# Bi = Ai^Bi-3^Bi-5
 def scrambling(bit_line, first=3, second=5):
     res = ''
     cur = ''
@@ -246,8 +246,8 @@ def scrambling(bit_line, first=3, second=5):
 print('Скремблированное сообщение:')
 msg = scrambling(''.join(translate(name)[1]))
 print(msg)
-print('Скремблированное с 5 и 23:')
-msg = scrambling(''.join(translate(name)[1]), first=5, second=23)
+print('Скремблированное с 5 и 7:')
+msg = scrambling(''.join(translate(name)[1]), first=5, second=7)
 print(msg)
 
 
@@ -270,9 +270,59 @@ def max_of_0n1(bit_line):
         else:
             cur1 = 0
     return [max0, max1]
+
+
 # print(max_of_0n1(msg))
 
 a = []
 for i in range(0, len(msg), 4):
     a.append(msg[0 + i:4 + i])
 for i in a: print(str(hex(int(i, 2)))[2:], end='')
+
+
+def export_to_excel_scram_3_5():
+    st_ = [
+        'NRZ потенциальное кодирование:\t' + for_excel(potentialcode(scrambling(''.join(translate(name)[1][:4])))),
+        'Манчестерское кодирование:\t' + for_excel(manchestercode(scrambling(''.join(translate(name)[1][:4])))),
+        'Дифференциальное манчестерское кодирование:\t' + for_excel(
+            difmanchestercode(scrambling(''.join(translate(name)[1][:4])))),
+        'AMI:\t' + amicode_for_excel(scrambling(''.join(translate(name)[1][:4]))),
+        'Биполярное RZ:\t' + bipolarRZcode_for_excel(scrambling(''.join(translate(name)[1][:4]))),
+        'NRZI:\t' + for_excel(nrzicode(scrambling(''.join(translate(name)[1][:4]))))
+    ]
+    with open('codes_scremble_3_5.csv', 'w') as file:
+        for i in st_:
+            file.write(i + '\n')
+
+
+def export_to_excel_scram_5_7():
+    st_ = [
+        'NRZ потенциальное кодирование:\t' + for_excel(potentialcode(scrambling(''.join(translate(name)[1][:4]), 5, 7))),
+        'Манчестерское кодирование:\t' + for_excel(manchestercode(scrambling(''.join(translate(name)[1][:4]), 5, 7))),
+        'Дифференциальное манчестерское кодирование:\t' + for_excel(
+            difmanchestercode(scrambling(''.join(translate(name)[1][:4]), 5, 7))),
+        'AMI:\t' + amicode_for_excel(scrambling(''.join(translate(name)[1][:4]), 5, 7)),
+        'Биполярное RZ:\t' + bipolarRZcode_for_excel(scrambling(''.join(translate(name)[1][:4]), 5, 7)),
+        'NRZI:\t' + for_excel(nrzicode(scrambling(''.join(translate(name)[1][:4]), 5, 7)))
+    ]
+    with open('codes_scremble_5_7.csv', 'w') as file:
+        for i in st_:
+            file.write(i + '\n')
+
+
+def export_to_excel_overcoding():
+    st_ = [
+        'NRZ потенциальное кодирование:\t' + for_excel(potentialcode(logical_overcoding(''.join(translate(name)[1][:4])))),
+        'Манчестерское кодирование:\t' + for_excel(manchestercode(logical_overcoding(''.join(translate(name)[1][:4])))),
+        'Дифференциальное манчестерское кодирование:\t' + for_excel(difmanchestercode(logical_overcoding(''.join(translate(name)[1][:4])))),
+        'AMI:\t' + amicode_for_excel(logical_overcoding(''.join(translate(name)[1][:4]))),
+        'Биполярное RZ:\t' + bipolarRZcode_for_excel(logical_overcoding(''.join(translate(name)[1][:4]))),
+        'NRZI:\t' + for_excel(nrzicode(logical_overcoding(''.join(translate(name)[1][:4]))))
+    ]
+    with open('codes_overcoding_4to5.csv', 'w') as file:
+        for i in st_:
+            file.write(i + '\n')
+
+export_to_excel_scram_3_5()
+export_to_excel_scram_5_7()
+export_to_excel_overcoding()
